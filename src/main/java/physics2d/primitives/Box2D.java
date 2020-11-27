@@ -4,9 +4,9 @@ import org.joml.Vector2f;
 import physics2d.rigidbody.Rigidbody2D;
 import util.JMath;
 
-public class Box2D {
+public class Box2D extends Collider2D {
     private Vector2f size = new Vector2f();
-    private Vector2f halfSize = new Vector2f();
+    private Vector2f halfSize;
     private Rigidbody2D rigidbody = null;
 
     public Box2D() {

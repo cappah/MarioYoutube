@@ -8,6 +8,7 @@ import org.joml.Vector2f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
 import physics2d.PhysicsSystem2D;
+import physics2d.primitives.Box2D;
 import physics2d.primitives.Circle;
 import physics2d.rigidbody.Rigidbody2D;
 import renderer.DebugDraw;
@@ -21,8 +22,8 @@ public class LevelEditorScene extends Scene {
 
     GameObject levelEditorStuff = this.createGameObject("LevelEditor");
     PhysicsSystem2D physics = new PhysicsSystem2D(1.0f / 60.0f, new Vector2f(0, -10));
-    Transform obj1, obj2;
-    Rigidbody2D rb1, rb2;
+    Transform obj1, obj2, obj3, obj4;
+    Rigidbody2D rb1, rb2, rb3, rb4;
 
     public LevelEditorScene() {
 
@@ -36,33 +37,52 @@ public class LevelEditorScene extends Scene {
 
         this.camera = new Camera(new Vector2f(-250, 0));
         levelEditorStuff.addComponent(new MouseControls());
-        levelEditorStuff.addComponent(new GridLines());
+        //levelEditorStuff.addComponent(new GridLines());
         levelEditorStuff.addComponent(new EditorCamera(this.camera));
         levelEditorStuff.addComponent(new GizmoSystem(gizmos));
 
         levelEditorStuff.start();
 
-//        obj1 = new Transform(new Vector2f(100, 500));
-//        obj2 = new Transform(new Vector2f(100, 300));
-//
-//        rb1 = new Rigidbody2D();
-//        rb2 = new Rigidbody2D();
-//        rb1.setRawTransform(obj1);
-//        rb2.setRawTransform(obj2);
-//        rb1.setMass(100.0f);
-//        rb2.setMass(200.0f);
-//
-//        Circle c1 = new Circle();
-//        c1.setRadius(10.0f);
-//        c1.setRigidbody(rb1);
-//        Circle c2 = new Circle();
-//        c2.setRadius(20.0f);
-//        c2.setRigidbody(rb2);
-//        rb1.setCollider(c1);
-//        rb2.setCollider(c2);
-//
-//        physics.addRigidbody(rb1, true);
-//        physics.addRigidbody(rb2, false);
+        obj1 = new Transform(new Vector2f(100, 500));
+        obj2 = new Transform(new Vector2f(100, 300));
+        obj3 = new Transform(new Vector2f(300, 500));
+        obj4 = new Transform(new Vector2f(300, 300));
+
+        rb1 = new Rigidbody2D();
+        rb2 = new Rigidbody2D();
+        rb3 = new Rigidbody2D();
+        rb4 = new Rigidbody2D();
+        rb1.setRawTransform(obj1);
+        rb2.setRawTransform(obj2);
+        rb3.setRawTransform(obj3);
+        rb4.setRawTransform(obj4);
+        rb1.setMass(100.0f);
+        rb2.setMass(200.0f);
+        rb3.setMass(100.0f);
+        rb4.setMass(200.0f);
+
+        Circle c1 = new Circle();
+        c1.setRadius(10.0f);
+        c1.setRigidbody(rb1);
+        Circle c2 = new Circle();
+        c2.setRadius(20.0f);
+        c2.setRigidbody(rb2);
+        rb1.setCollider(c1);
+        rb2.setCollider(c2);
+
+        Box2D b1 = new Box2D();
+        b1.setSize(new Vector2f(10, 10));
+        b1.setRigidbody(rb3);
+        Box2D b2 = new Box2D();
+        b2.setSize(new Vector2f(10, 10));
+        b2.setRigidbody(rb4);
+        rb3.setCollider(b1);
+        rb4.setCollider(b2);
+
+        physics.addRigidbody(rb1, false);
+        physics.addRigidbody(rb2, false);
+        physics.addRigidbody(rb3, true);
+        physics.addRigidbody(rb4, false);
     }
 
     private void loadResources() {
@@ -95,9 +115,11 @@ public class LevelEditorScene extends Scene {
             go.update(dt);
         }
 
-//        DebugDraw.addCircle(obj1.position, 10.0f, new Vector3f(1, 0, 0));
-//        DebugDraw.addCircle(obj2.position, 20.0f, new Vector3f(0.2f, 0.8f, 0.1f));
-//        physics.update(dt);
+        DebugDraw.addCircle(obj1.position, 10.0f, new Vector3f(1, 0, 0));
+        DebugDraw.addCircle(obj2.position, 20.0f, new Vector3f(0.2f, 0.8f, 0.1f));
+        DebugDraw.addBox2D(obj3.position, new Vector2f(10, 10), obj3.rotation);
+        DebugDraw.addBox2D(obj4.position, new Vector2f(20, 20), obj4.rotation);
+        physics.update(dt);
     }
 
     @Override

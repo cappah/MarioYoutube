@@ -132,12 +132,16 @@ public class IntersectionDetector2D {
         }
 
         float f = (float)Math.sqrt(radiusSquared - bSq);
-        float t = 0;
+        float t;
         if (originToCircleLengthSquared < radiusSquared) {
             // Ray starts inside the circle
             t = a + f;
         } else {
             t = a - f;
+        }
+
+        if (t < 0) {
+            return false;
         }
 
         if (result != null) {

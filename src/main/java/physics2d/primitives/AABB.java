@@ -4,7 +4,7 @@ import org.joml.Vector2f;
 import physics2d.rigidbody.Rigidbody2D;
 
 // Axis Aligned Bounding Box
-public class AABB {
+public class AABB extends Collider2D {
     private Vector2f size = new Vector2f();
     private Vector2f halfSize;
     private Rigidbody2D rigidbody = null;
